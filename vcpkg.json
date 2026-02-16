@@ -1,0 +1,10 @@
+{
+  "name": "particle-system",
+  "version": "1.0.0",
+  "dependencies": [
+    "glfw3",
+    "glew",
+    "opengl",
+    "glm"
+  ]
+}
