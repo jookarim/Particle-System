@@ -42,7 +42,7 @@ target_link_libraries(imgui PUBLIC
 add_executable(Particle_System
     src/main.cpp
     src/stb_image.cpp
-)
+ "src/Window.cpp" )
 
 target_include_directories(Particle_System PRIVATE
     include
