@@ -1,8 +1,12 @@
+#pragma once
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <string>
 #include <string_view>
 #include <stdexcept>
+#include <ctime>
+#include <cstdlib>
 
 class Window
 {
@@ -35,8 +39,8 @@ public:
 
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
-	Window(Window&&) = delete;
-	Window& operator=(Window&&) = delete;
+	Window(Window&&) noexcept = delete; 
+	Window& operator=(Window&&) noexcept = delete;
 
 	//check if window would close
 	bool shouldClose() const;
@@ -44,4 +48,6 @@ public:
 	void swapBuffers() const;
 	//a function put before checking events to enable glfw check events
 	void pollEvents() const;
+
+	void clear(float r, float g, float b, float a) const;
 };

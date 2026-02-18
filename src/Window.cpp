@@ -2,6 +2,7 @@
 
 void Window::createWindow(int width, int height, std::string_view title)
 {
+	srand(time(nullptr));
 	//check if glfw init
 	if (!glfwInit()) throw std::runtime_error("Failed to init glfw");
 
@@ -34,12 +35,19 @@ void Window::createWindow(int width, int height, std::string_view title)
 
 	//best practise to set viewport size
 
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glViewport(0, 0, m_width, m_height);
+
+	glEnable(GL_PROGRAM_POINT_SIZE);
 }
 
 void Window::destroyWindow() noexcept
 {
-	if (!m_handle)
+	if (m_handle)
 	{
 		glfwDestroyWindow(m_handle);
 		m_handle = nullptr;
@@ -81,4 +89,12 @@ void Window::swapBuffers() const
 void Window::pollEvents() const
 {
 	glfwPollEvents();
+}
+
+void Window::clear(float r, float g, float b, float a) const
+{
+	//clear only color because of 2d rendering
+	glClearColor(r, g, b, a);
+	glClear(GL_COLOR_BUFFER_BIT);
+
 }

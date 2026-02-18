@@ -42,7 +42,13 @@ target_link_libraries(imgui PUBLIC
 add_executable(Particle_System
     src/main.cpp
     src/stb_image.cpp
- "src/Window.cpp" )
+    src/Window.cpp
+    src/ShaderStorageBuffer.cpp
+    src/Shader.cpp
+    src/Mesh.cpp
+    src/Compute.cpp
+ "src/Texture.cpp")
+
 
 target_include_directories(Particle_System PRIVATE
     include
