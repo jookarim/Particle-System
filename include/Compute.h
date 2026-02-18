@@ -8,6 +8,8 @@ class Compute
 private:
 	ShaderStorageBuffer m_positionSSBO;
 	ShaderStorageBuffer m_velocitySSBO;
+	ShaderStorageBuffer m_alphaSSBO;
+
 	unsigned int m_numParticles;
 
 	void createSSBOs(unsigned int numParticles, const glm::vec2& startPos, const std::vector<glm::vec2>& randomVelocities);
@@ -23,5 +25,7 @@ public:
 
 	void bind() const;
 	void bindPosition() const;
+	void bindAlpha() const;
+
 	void dispatch(unsigned int localSize) const;
 };

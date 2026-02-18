@@ -54,8 +54,8 @@ int main()
 			window.clear(1.f, 0.f, 0.f, 1.f);
 
 			appShader.bind();
-			appShader.setUniformVec3("color", glm::vec3{ 1.f, 1.f, 0.f });
 			appShader.setUniformui64("diffuse", texture.getHandle());
+			compute.bindAlpha();
 
 			mesh.draw();
 

@@ -12,12 +12,17 @@ layout(std430, binding = 1) buffer Velocities
 	vec2 velocities[];
 };
 
+layout(std430, binding = 2) buffer Alphas
+{
+	float alphas[];
+};
+
 uniform float dt;
 uniform int numParticles;
 uniform float speed;
 
 void main()
-{
+{	
 	uint id = gl_GlobalInvocationID.x;
 
 	if (id >= numParticles)
@@ -26,4 +31,6 @@ void main()
 	}
 
 	positions[id] += velocities[id] * speed * dt;
+
+	if (alphas[id] > 0.0) alphas[id] -= dt;
 }

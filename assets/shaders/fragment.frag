@@ -4,11 +4,18 @@
 
 out vec4 fragColor;
 
-uniform vec3 color;
 uniform sampler2D diffuse;
+
+layout(std430, binding = 2) readonly buffer Alpha
+{
+    float alphas[];
+};
+
+flat in uint oVertexID;
 
 void main()
 {
     vec2 uv = gl_PointCoord;
-    fragColor = texture(diffuse, uv) * vec4(color, 1.0);
+    float alpha = alphas[oVertexID];
+    fragColor = vec4(texture(diffuse, uv).rgb, alpha);
 }
