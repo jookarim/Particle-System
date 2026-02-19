@@ -1,7 +1,11 @@
+#pragma once
+
 #include "ShaderStorageBuffer.h"
 #include <glm/glm.hpp>
 #include <vector>
 #include <memory>
+#include "Random.h"
+#include <vector>
 
 class Compute
 {
@@ -9,6 +13,7 @@ private:
 	ShaderStorageBuffer m_positionSSBO;
 	ShaderStorageBuffer m_velocitySSBO;
 	ShaderStorageBuffer m_alphaSSBO;
+	std::vector<glm::vec2> m_velocites;
 
 	unsigned int m_numParticles;
 
@@ -27,5 +32,9 @@ public:
 	void bindPosition() const;
 	void bindAlpha() const;
 
+	void resetParticles();
+
 	void dispatch(unsigned int localSize) const;
+
+	unsigned int getNumParticles() const { return m_numParticles; }
 };

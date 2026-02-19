@@ -47,7 +47,7 @@ add_executable(Particle_System
     src/Shader.cpp
     src/Mesh.cpp
     src/Compute.cpp
- "src/Texture.cpp")
+ "src/Texture.cpp" "src/Random.cpp")
 
 
 target_include_directories(Particle_System PRIVATE

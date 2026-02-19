@@ -17,7 +17,7 @@ int main()
 		Shader appShader("assets/shaders/vertex.vert", "assets/shaders/fragment.frag");
 		Shader counterShader("assets/shaders/counter.comp");
 
-		std::vector<glm::vec2> velocities(10000);
+		std::vector<glm::vec2> velocities(100);
 
 		for (size_t i = 0; i < velocities.size(); ++i)
 		{
@@ -27,11 +27,9 @@ int main()
 			);
 		}
 		 
-		Mesh mesh(10000);
-		Compute compute(10000, { 0.f, 0.f }, velocities);
+		Mesh mesh(100);
+		Compute compute(100, { 0.f, 0.f }, velocities);
 		Texture texture("assets/images/bricks2.jpg");
-
-		texture.makeResident();
 
 		float lastTime = glfwGetTime();
 		float deltaTime = 0.f;
@@ -53,7 +51,7 @@ int main()
 
 			computeShader.bind();
 			computeShader.setUniformFloat("dt", deltaTime);
-			computeShader.setUniformInt("numParticles", static_cast<int>(10000));
+			computeShader.setUniformInt("numParticles", static_cast<int>(compute.getNumParticles()));
 			computeShader.setUniformFloat("speed", 10.f);
 
 			compute.bind();
@@ -63,22 +61,31 @@ int main()
 
 			compute.bindAlpha();
 
-			glDispatchCompute((10000 + 255) / 256, 1, 1);
+			glDispatchCompute((compute.getNumParticles() + 255) / 256, 1, 1);
 
 			glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
 			unsigned int counter = counterSSBO.readUInt();
 			
-			if (counter == 10000u && !finished)
+			if (counter == compute.getNumParticles())
 			{
-				std::cout << "Finished\n";
-				finished = true;
+				unsigned int current = compute.getNumParticles();
+
+				if (current < 1000000) 
+				{
+					glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+					compute.resetParticles(); 
+
+					mesh = Mesh(compute.getNumParticles()); 
+				}
 			}
 
 			window.clear(1.f, 0.f, 0.f, 1.f);
 
 			appShader.bind();
-			appShader.setUniformui64("diffuse", texture.getHandle());
+			texture.bind(0);
+			appShader.setUniformInt("diffuse", 0);
 			compute.bindAlpha();
 
 			mesh.draw();
