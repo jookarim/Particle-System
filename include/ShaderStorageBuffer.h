@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include <cstdlib>
-
+#include <vector>
 
 class ShaderStorageBuffer
 {
@@ -28,5 +28,7 @@ public:
 	void bind() const;
 
 	int getSize() const { return m_size; }
-	void* getData() const;
+	std::vector<char> getData() const;
+
+	unsigned int readUInt() const;
 };

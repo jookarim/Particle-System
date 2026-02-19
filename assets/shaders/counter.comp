@@ -1,0 +1,33 @@
+#version 450 core
+
+layout(local_size_x = 256) in;
+
+layout(std430, binding = 0) buffer Positions
+{
+    vec2 positions[];
+};
+
+layout(std430, binding = 2) buffer Alphas
+{
+    float alphas[];
+};
+
+layout(std430, binding = 3) buffer Counter
+{
+    uint count;
+};
+
+void main()
+{
+    uint id = gl_GlobalInvocationID.x;
+
+    if (id >= positions.length()) return;
+
+    vec2 p = positions[id];
+
+    if ((p.x <= -1 || p.x >= 1) &&
+        (p.y <= -1 || p.y >= 1) || alphas[id] <= 0)
+    {
+        atomicAdd(count, 1);
+    }
+}

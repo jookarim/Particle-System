@@ -32,11 +32,12 @@ void ShaderStorageBuffer::bind() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
 }
 
-void* ShaderStorageBuffer::getData() const
+std::vector<char> ShaderStorageBuffer::getData() const
 {
-	void* data = malloc(m_size);
-
-	glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, m_size, data);
+	std::vector<char> data(m_size);
+	
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
+	glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, m_size, data.data());
 
 	return data;
 }
@@ -63,4 +64,11 @@ ShaderStorageBuffer& ShaderStorageBuffer::operator=(ShaderStorageBuffer&& other)
 	other.m_size = 0;
 	other.m_ssbo = 0;
 	return *this;
+}
+
+unsigned int ShaderStorageBuffer::readUInt() const
+{
+	unsigned int value = 0;
+	glGetNamedBufferSubData(m_ssbo, 0, sizeof(unsigned int), &value);
+	return value;
 }
