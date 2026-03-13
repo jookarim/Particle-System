@@ -7,7 +7,7 @@ The system supports replaying the simulation with different particle counts each
 
 ## Demo
 
-[Watch the video](assets/videos/Preview.mp4)
+[![Watch the demo](https://img.youtube.com/vi/Q3hg_c1DrVc/0.jpg)](https://www.youtube.com/watch?v=Q3hg_c1DrVc)
 
 ## Features
 
